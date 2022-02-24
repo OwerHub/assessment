@@ -35,42 +35,48 @@ const loadFunct = () => {
     "ninety",
   ];
 
-  const multiplyWords = ["", "hundred", "tousand", "million"];
-  const multiply = [1, 100, 1000, 1000000, 10000000];
-  const division = [100, 10, 1000, 1000];
+  const multiplyWords = ["", "hundred", "tousand", "million", "billion", "trillion"];
+  const multiply = [1, 100, 10 ** 3, 10 ** 6, 10 ** 9, 10 ** 12, 10 ** 15];
+  const division = [100, 10, 100, 1000, 1000, 1000];
+
+  let englishThousands = true;
 
   const numberToText = (number) => {
     const toHundred = (numberToHundred) => {
-      if (numberToHundred < 20) {
-        return ones[numberToHundred];
-      }
-      return (
-        tens[Math.floor(numberToHundred / 10)] + " " + ones[numberToHundred % 10]
-      );
+      return numberToHundred < 20
+        ? ones[numberToHundred]
+        : tens[Math.floor(numberToHundred / 10)] + "-" + ones[numberToHundred % 10];
     };
 
     let i = 0;
-    let text = "";
+    let textArray = [];
 
-    while (number > multiply[i]) {
-      console.log("-----");
+    while (number > multiply[i] || i === multiply.length + 1) {
       const partNumber = Math.floor(number / multiply[i]) % division[i];
 
-      if (partNumber < 100) {
-        console.log(toHundred(partNumber));
-      } else {
-        console.log(
-          toHundred(Math.floor(partNumber / 100)) +
-            "hundred " +
-            toHundred(partNumber % 100)
-        );
+      if (i === 1) {
+        textArray.unshift("and");
       }
-      console.log(multiplyWords[i]);
+
+      console.log(i, partNumber);
+      //textArray.unshift(multiplyWords[i]);
+
+      textArray.unshift(
+        partNumber < 100
+          ? toHundred(partNumber)
+          : toHundred(Math.floor(partNumber / 100)) +
+              " hundred and " +
+              toHundred(partNumber % 100),
+        multiplyWords[i]
+      );
+
       i++;
     }
+
+    return textArray.join(" ");
   };
 
-  numberToText(1112345);
+  console.log(numberToText(134343343434234));
 };
 
 window.addEventListener("load", loadFunct);
