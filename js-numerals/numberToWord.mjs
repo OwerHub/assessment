@@ -45,9 +45,8 @@ const multiplyWords = [
   //bigint from here
   "quintillion",
 ];
-
 const multiply = [1, 100];
-const division = [100, 10, 100];
+const division = [100, 10];
 
 const toHundred = (numberToHundred) => {
   return numberToHundred < 20
@@ -97,7 +96,14 @@ const numberToText = (number, englishTrans = true) => {
       textArray.unshift("and");
     }
 
-    console.log("i=", i, " PartNUmber= ", partNumber);
+    console.log(
+      "i=",
+      i,
+      " PartNUmber= ",
+      partNumber,
+      "computedDivision: ",
+      computedDivision
+    );
     textArray.unshift(
       partNumber < 100
         ? toHundred(partNumber)
