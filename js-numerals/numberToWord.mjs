@@ -126,8 +126,7 @@ const numberToText = (number, englishTrans = true) => {
   return [textArray.join(" ").trim(), false];
 };
 
-// if you want to run the test one time in line server,  comment the 129 line
-//
+// if you want to run the test one time in line server,  comment the 130 line
 export { numberToText };
 
 if (typeof exports !== "undefined") {
