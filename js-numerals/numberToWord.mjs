@@ -57,7 +57,6 @@ const toHundred = (numberToHundred) => {
 };
 
 const numberToText = (number, englishTrans = true) => {
-  console.log(number);
   const isNegative = number < 0;
   let textArray = [];
   number = Math.abs(number);
@@ -98,14 +97,6 @@ const numberToText = (number, englishTrans = true) => {
       textArray.unshift("and");
     }
 
-    console.log(
-      "i=",
-      i,
-      " PartNUmber= ",
-      partNumber,
-      "computedDivision: ",
-      computedDivision
-    );
     textArray.unshift(
       partNumber < 100
         ? toHundred(partNumber)
@@ -120,8 +111,6 @@ const numberToText = (number, englishTrans = true) => {
   }
 
   isNegative && textArray.unshift("negative");
-
-  console.log(textArray.join(" ").trim(), false);
 
   return [textArray.join(" ").trim(), false];
 };
