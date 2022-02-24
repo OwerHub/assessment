@@ -50,29 +50,35 @@ const loadFunct = () => {
   const multiply = [1, 100];
   const division = [100, 10, 100];
 
-  /* let englishThousands = true; // later */
+  const toHundred = (numberToHundred) => {
+    return numberToHundred < 20
+      ? ones[numberToHundred]
+      : tens[Math.floor(numberToHundred / 10)] + "-" + ones[numberToHundred % 10];
+  };
 
   const numberToText = (number, englishTrans = true) => {
     const isNegative = number < 0;
     let textArray = [];
     number = Math.abs(number);
 
+    if (!number) {
+      return ["Gimme' Numbers!", true];
+    }
+
     if (number >= Number.MAX_SAFE_INTEGER) {
-      return ["Error : This number is out of my workspace", true];
+      return ["This number is out of my workspace", true];
     }
 
     if (number === 0) {
       return ["zero", false];
     }
 
-    const toHundred = (numberToHundred) => {
-      return numberToHundred < 20
-        ? ones[numberToHundred]
-        : tens[Math.floor(numberToHundred / 10)] + "-" + ones[numberToHundred % 10];
-    };
+    if (number === 1) {
+      textArray = ["one", ""];
+    }
 
     let i = 0;
-    //console.log(number);
+
     while (
       number > (multiply[i] || 10 ** ((i - 1) * 3)) ||
       i === multiplyWords.length
@@ -84,6 +90,7 @@ const loadFunct = () => {
 
       const partNumber =
         Math.floor(number / (multiply[i] || 10 ** ((i - 1) * 3))) % computedDivision;
+
       //console.log(i, partNumber, thousandsToHundreds);
 
       if (i === 1) {
@@ -103,18 +110,16 @@ const loadFunct = () => {
       thousandsToHundreds && i++;
     }
 
-    isNegative && textArray.unshift("minus");
-    return [textArray.join(" "), false];
-  };
+    isNegative && textArray.unshift("negative");
 
-  //console.log(numberToText(8_999_423_410_999_991));
-  /*  console.log(numberToText(1258));
-  console.log(numberToText(223121258)); */
+    return [textArray.join(" ").trim(), false];
+  };
 
   const numberInput = document.querySelector("#numberInput");
   const answerDiv = document.querySelector(".answer");
   const typeChck = document.querySelector("#typeCheck");
   const answerTypes = ["textAnswer", "warningAnswer"];
+  const convertButton = document.querySelector("button");
 
   const inputChanged = (e) => {
     // delete the last display
@@ -125,7 +130,10 @@ const loadFunct = () => {
       }
     });
 
-    const textFromNumber = numberToText(parseInt(e.target.value), typeChck.checked);
+    const textFromNumber = numberToText(
+      parseInt(numberInput.value),
+      typeChck.checked
+    );
 
     answerDiv.insertAdjacentHTML(
       "beforeend",
@@ -135,7 +143,8 @@ const loadFunct = () => {
     );
   };
 
-  numberInput.addEventListener("change", (e) => inputChanged(e));
+  convertButton.addEventListener("click", inputChanged);
+  numberInput.addEventListener("change", inputChanged);
 };
 
 window.addEventListener("load", loadFunct);
