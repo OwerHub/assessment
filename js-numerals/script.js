@@ -35,11 +35,20 @@ const loadFunct = () => {
     "ninety",
   ];
 
-  const multiplyWords = ["", "hundred", "tousand", "million", "billion", "trillion"];
-  const multiply = [1, 100, 10 ** 3, 10 ** 6, 10 ** 9, 10 ** 12, 10 ** 15];
-  const division = [100, 10, 100, 1000, 1000, 1000];
+  const multiplyWords = [
+    "",
+    "hundred",
+    "thousand",
+    "million",
+    "billion",
+    "trillion",
+    "quadrillion",
+    "quintillion",
+  ];
+  const multiply = [1, 100];
+  const division = [100, 10, 100];
 
-  let englishThousands = true;
+  let englishThousands = true; // later
 
   const numberToText = (number) => {
     const toHundred = (numberToHundred) => {
@@ -51,14 +60,18 @@ const loadFunct = () => {
     let i = 0;
     let textArray = [];
 
-    while (number > multiply[i] || i === multiply.length + 1) {
-      const partNumber = Math.floor(number / multiply[i]) % division[i];
+    while (
+      number > (multiply[i] || 10 ** ((i - 1) * 3)) ||
+      i === multiplyWords.length
+    ) {
+      const partNumber =
+        Math.floor(number / (multiply[i] || 10 ** ((i - 1) * 3))) %
+        (division[i] || 1000);
 
       if (i === 1) {
         textArray.unshift("and");
       }
 
-      console.log(i, partNumber);
       //textArray.unshift(multiplyWords[i]);
 
       textArray.unshift(
@@ -76,7 +89,8 @@ const loadFunct = () => {
     return textArray.join(" ");
   };
 
-  console.log(numberToText(134343343434234));
+  console.log(numberToText(8_999_423_410_999_991));
+  //console.log(numberToText());
 };
 
 window.addEventListener("load", loadFunct);
