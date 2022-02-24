@@ -56,46 +56,29 @@ const toHundred = (numberToHundred) => {
 };
 
 const numberToText = (number, englishTrans = true) => {
+  console.log(number);
   const isNegative = number < 0;
   let textArray = [];
   number = Math.abs(number);
 
+  // ---errors, specials
   const errorArray = [
     [number === 0, ["zero", false]],
     [!number, ["Gimme' Numbers!", true]],
     [number >= Number.MAX_SAFE_INTEGER, ["This number is out of workspace", true]],
   ];
 
-  /* 	errorArray.forEach((error) => {
-    if (error[0]) {
-			console.log(error[1])
-      return error[1];
-    }
-  }); */
-
   for (let i = 0; i < errorArray.length; i++) {
     if (errorArray[i][0]) {
-      console.log(errorArray[i][1]);
       return errorArray[i][1];
     }
   }
-
-  /* if (!number) {
-    return ["Gimme' Numbers!", true];
-  }
-
-  if (number >= Number.MAX_SAFE_INTEGER) {
-    return ["This number is out of workspace", true];
-  }
-
-  if (number === 0) {
-    return ["zero", false];
-  } */
 
   if (number === 1) {
     textArray = ["one", ""];
   }
 
+  // --- text engine
   let i = 0;
 
   while (
@@ -110,12 +93,11 @@ const numberToText = (number, englishTrans = true) => {
     const partNumber =
       Math.floor(number / (multiply[i] || 10 ** ((i - 1) * 3))) % computedDivision;
 
-    //console.log(i, partNumber, thousandsToHundreds);
-
     if (i === 1) {
       textArray.unshift("and");
     }
 
+    console.log("i=", i, " PartNUmber= ", partNumber);
     textArray.unshift(
       partNumber < 100
         ? toHundred(partNumber)
