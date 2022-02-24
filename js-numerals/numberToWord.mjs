@@ -51,6 +51,8 @@ const division = [100, 10];
 const toHundred = (numberToHundred) => {
   return numberToHundred < 20
     ? ones[numberToHundred]
+    : numberToHundred % 10 === 0
+    ? tens[Math.floor(numberToHundred / 10)]
     : tens[Math.floor(numberToHundred / 10)] + "-" + ones[numberToHundred % 10];
 };
 
