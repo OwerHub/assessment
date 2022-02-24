@@ -56,8 +56,13 @@ const loadFunct = () => {
     const isNegative = number < 0;
     let textArray = [];
     number = Math.abs(number);
+
+    if (number >= Number.MAX_SAFE_INTEGER) {
+      return ["Error : This number is out of my workspace", true];
+    }
+
     if (number === 0) {
-      return "zero";
+      return ["zero", false];
     }
 
     const toHundred = (numberToHundred) => {
@@ -99,12 +104,12 @@ const loadFunct = () => {
     }
 
     isNegative && textArray.unshift("minus");
-    return textArray.join(" ");
+    return [textArray.join(" "), false];
   };
 
   //console.log(numberToText(8_999_423_410_999_991));
-  console.log(numberToText(1258));
-  console.log(numberToText(223121258));
+  /*  console.log(numberToText(1258));
+  console.log(numberToText(223121258)); */
 
   const numberInput = document.querySelector("#numberInput");
   const answerDiv = document.querySelector(".answer");
@@ -112,6 +117,7 @@ const loadFunct = () => {
   const answerTypes = ["textAnswer", "warningAnswer"];
 
   const inputChanged = (e) => {
+    // delete the last display
     answerTypes.forEach((answerType) => {
       const insertedContent = document.querySelector(`.${answerType}`);
       if (insertedContent) {
@@ -119,13 +125,13 @@ const loadFunct = () => {
       }
     });
 
-    console.log(parseInt(e.target.value));
-
     const textFromNumber = numberToText(parseInt(e.target.value), typeChck.checked);
 
     answerDiv.insertAdjacentHTML(
       "beforeend",
-      `<div class="${answerTypes[1]}">${textFromNumber}</div>`
+      `<div class="${textFromNumber[1] ? answerTypes[1] : answerTypes[0]}">${
+        textFromNumber[0]
+      }</div>`
     );
   };
 
