@@ -119,7 +119,15 @@ const numberToText = (number, englishTrans = true) => {
 
   isNegative && textArray.unshift("negative");
 
+  console.log(textArray.join(" ").trim(), false);
+
   return [textArray.join(" ").trim(), false];
 };
 
+// if you want to run the test one time in line server,  comment the 129 line
+//
 export { numberToText };
+
+if (typeof exports !== "undefined") {
+  module.exports = numberToText;
+}

@@ -22,6 +22,7 @@ const loadFunct = () => {
       parseInt(numberInput.value),
       typeChck.checked
     );
+    console.log(textFromNumber);
 
     answerDiv.insertAdjacentHTML(
       "beforeend",
