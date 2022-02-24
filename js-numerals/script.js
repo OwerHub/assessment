@@ -60,14 +60,26 @@ const loadFunct = () => {
 
     let i = 0;
     let textArray = [];
+    console.log(number);
 
     while (
       number > (multiply[i] || 10 ** ((i - 1) * 3)) ||
       i === multiplyWords.length
     ) {
+      const thousandsToHundreds =
+        englishTrans && number > 1000 && number < 2000 && i === 1;
+
+      let computedDivision = thousandsToHundreds ? 100 : division[i] || 1000;
+
+      /*   thousandsToHundreds
+        ? (computedDivision = 100)
+        : (computedDivision = division[i] || 1000); */
+
       const partNumber =
-        Math.floor(number / (multiply[i] || 10 ** ((i - 1) * 3))) %
-        (division[i] || 1000);
+        Math.floor(number / (multiply[i] || 10 ** ((i - 1) * 3))) % computedDivision;
+
+      console.log(i, partNumber, thousandsToHundreds);
+      // if english  AND  number <2000 and number >1000 AND
 
       if (i === 1) {
         textArray.unshift("and");
@@ -83,13 +95,15 @@ const loadFunct = () => {
       );
 
       i++;
+      thousandsToHundreds && i++;
     }
 
     return textArray.join(" ");
   };
 
-  console.log(numberToText(8_999_423_410_999_991));
-  //console.log(numberToText());
+  //console.log(numberToText(8_999_423_410_999_991));
+  console.log(numberToText(1258));
+  console.log(numberToText(223121258));
 
   const numberInput = document.querySelector("input");
   const answerDiv = document.querySelector(".answer");
