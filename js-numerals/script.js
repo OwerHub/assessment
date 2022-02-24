@@ -1,3 +1,4 @@
+//import { numberToText } from "./numberToWords";
 const loadFunct = () => {
   const ones = [
     "",
@@ -48,9 +49,9 @@ const loadFunct = () => {
   const multiply = [1, 100];
   const division = [100, 10, 100];
 
-  let englishThousands = true; // later
+  /* let englishThousands = true; // later */
 
-  const numberToText = (number) => {
+  const numberToText = (number, englishTrans = true) => {
     const toHundred = (numberToHundred) => {
       return numberToHundred < 20
         ? ones[numberToHundred]
@@ -72,8 +73,6 @@ const loadFunct = () => {
         textArray.unshift("and");
       }
 
-      //textArray.unshift(multiplyWords[i]);
-
       textArray.unshift(
         partNumber < 100
           ? toHundred(partNumber)
@@ -91,6 +90,28 @@ const loadFunct = () => {
 
   console.log(numberToText(8_999_423_410_999_991));
   //console.log(numberToText());
+
+  const numberInput = document.querySelector("input");
+  const answerDiv = document.querySelector(".answer");
+
+  const answerTypes = ["textAnswer", "warningAnswer"];
+
+  const inputChanged = (e) => {
+    answerTypes.forEach((answerType) => {
+      const insertedContent = document.querySelector(`.${answerType}`);
+      if (insertedContent) {
+        insertedContent.parentNode.removeChild(insertedContent);
+      }
+    });
+
+    if (e.target.value)
+      answerDiv.insertAdjacentHTML(
+        "beforeend",
+        `<div class="${answerTypes[1]}">${numberToText(e.target.value)}</div>`
+      );
+  };
+
+  numberInput.addEventListener("change", (e) => inputChanged(e));
 };
 
 window.addEventListener("load", loadFunct);
